@@ -241,3 +241,27 @@ body {
     background: linear-gradient(to bottom, #fff, #999);
 }
 
+
+
+
+
+#root{
+	max-width: 1200px;
+	margin: 0 auto
+}
+.generic-table ul{
+	list-style: none;
+margin-left: 50px;    
+
+}
+
+.generic-table ul li{
+    padding: 10px 0;
+}
+.generic-table ul li div{
+    
+    display: inline;
+    padding: 0 20px;
+  
+
+}

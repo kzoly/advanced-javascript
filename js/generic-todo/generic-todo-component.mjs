@@ -1,52 +1,51 @@
-import { SORT_DIRECTION } from './generic-table-store.mjs';
+import { SORT_DIRECTION } from './generic-todo-store.mjs';
 import { BaseComponent } from '../core/base-component.mjs';
 
-export class GenericTableComponent extends BaseComponent {
-    tableConfig = null;
+export class GenericListComponent extends BaseComponent {
+    listConfig = null;
     store = null;
 
     constructor(store) {
         super();
         this.store = store;
         this.store.refreshCb = this.refresh;
-        this.tableConfig = store.tableConfig;
+        this.listConfig = store.listConfig;
     }
 
-    renderTable = () => {
+    rendelList = () => {
         const headRow = this.renderHeadRow();
         const bodyRows = this.store.getItems().map(item => this.renderBodyRow(item));
-        const table = { tagName: 'table', attributes: this.tableConfig.attributes, children: [headRow, ...bodyRows] };
-        return { tagName: 'div', attributes: { className: 'table-container' }, children: [table] };
+        const listelement = { tagName: 'ul', attributes: this.listConfig.attributes, children: [headRow, ...bodyRows] };
+        return { tagName: 'div', attributes: { className: 'list-container' }, children: [listelement] };
     }
 
     renderHeadRow = () => {
-        const cells = this.tableConfig.columns.map(column => {
-            const td = this.renderTableHeadCell(column);
-            return td;
+        const cell = this.listConfig.columns.map(column => {
+            const ul = this.renderListHeadRow(column);
+            return ul;
         });
-        const actionCell = { tagName: 'th', children: ['Actions'] };
-        return { tagName: 'tr', children: [...cells, actionCell] };
+        const actionCell = { tagName: 'div', children: ['Actions'] };
+        return { tagName: 'li', children: [...cell, actionCell] };
     }
 
     renderBodyRow = (item) => {
-        const cells = this.tableConfig.columns.map(column => {
-            const td = this.renderTableCell(column.attributes, [column.getCellValue(item)]);
-            return td;
+        const cell = this.listConfig.columns.map(column => {
+            const ul = this.rendelListCell(column.attributes, [column.getCellValue(item)]);
+            return ul;
         });
 
-        const editAction = { tagName: 'button', attributes: { className: 'edit-btn', onclick: () => this.store.setCurrentItem(item) }, children: ['edit'] };
-        const deleteAction = { tagName: 'button', attributes: { className: 'delete-btn', onclick: () => this.store.delete(item) }, children: ['delete'] };
+       const deleteAction = { tagName: 'button', attributes: { className: 'delete-btn', onclick: () => this.store.delete(item) }, children: ['delete'] };
 
-        const actions = [editAction, deleteAction];
-        const actionCell = this.renderTableCell({}, actions);
-        return { tagName: 'tr', children: [...cells, actionCell] };
+        const actions = [deleteAction];
+        const actionCell = this.rendelListCell({}, actions);
+        return { tagName: 'li', children: [...cell, actionCell] };
     }
 
-    renderTableCell = (attributes, children) => {
-        return { tagName: 'td', attributes, children };
+    rendelListCell = (attributes, children) => {
+        return { tagName: 'div', attributes, children };
     }
 
-    renderTableHeadCell = (column) => {
+    renderListHeadRow = (column) => {
         const [ASC] = SORT_DIRECTION;
         const attributes = Object.assign({ className: 'sortable' }, column.attributes);
         const children = [
@@ -62,12 +61,12 @@ export class GenericTableComponent extends BaseComponent {
             }
         }
 
-        return { tagName: 'th', attributes, children };
+        return { tagName: 'div', attributes, children };
     }
 
     renderForm = () => {
         const item = this.store.currentItem;
-        const { formFields } = this.tableConfig;
+        const { formFields } = this.listConfig;
 
         const children = [
             { tagName: 'h2', children: [item.id ? 'Edit Form' : 'Add Form'] }
@@ -135,7 +134,7 @@ export class GenericTableComponent extends BaseComponent {
         const children = [
             this.renderSearchBar(),
             this.renderAddButton(),
-            this.renderTable()
+            this.rendelList()
         ];
 
         if (this.store.currentItem) {
