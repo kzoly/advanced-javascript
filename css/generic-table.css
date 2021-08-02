@@ -95,6 +95,8 @@ body {
     overflow: auto;
     max-height: calc(100vh - 125px);
     padding: 0;
+ 
+
 }
 
 .generic-table table {
@@ -264,4 +266,9 @@ margin-left: 50px;
     padding: 0 20px;
   
 
+}
+.select{
+    position: absolute;
+    top: 95px;
+    right: 10px;
 }

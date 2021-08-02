@@ -13,19 +13,39 @@ export class GenericListComponent extends BaseComponent {
     }
 
     rendelList = () => {
-        const headRow = this.renderHeadRow();
+        // const headRow = this.renderHeadRow();
         const bodyRows = this.store.getItems().map(item => this.renderBodyRow(item));
-        const listelement = { tagName: 'ul', attributes: this.listConfig.attributes, children: [headRow, ...bodyRows] };
+        //const listelement = { tagName: 'ul', attributes: this.listConfig.attributes, children: [headRow, ...bodyRows] };
+        const listelement = { tagName: 'ul', attributes: this.listConfig.attributes, children: [...bodyRows] };
+        
         return { tagName: 'div', attributes: { className: 'list-container' }, children: [listelement] };
     }
 
     renderHeadRow = () => {
         const cell = this.listConfig.columns.map(column => {
-            const ul = this.renderListHeadRow(column);
-            return ul;
+            const select = this.renderListHeadRow(column);
+            return select;
         });
-        const actionCell = { tagName: 'div', children: ['Actions'] };
-        return { tagName: 'li', children: [...cell, actionCell] };
+    
+        return { tagName: 'select', attributes: { className: 'select' }, children: [...cell] };
+    }
+    renderListHeadRow = (column) => {
+        const [ASC] = SORT_DIRECTION;
+        const attributes = Object.assign({ value:'sortlist' }, column.attributes);
+        const children = [
+            { tagName: 'span', attributes: column.attributes, children: [column.label] }
+        ];
+
+        const [sortId, direction] = this.store.currentSort;
+        if (column.sorter) {
+            attributes.onclick = () => this.store.setSort(column.id);
+            if (sortId === column.id) {
+                const arrow = { tagName: 'span', attributes: { className: 'sort-arrow' }, children: [direction === ASC ? '↑': '↓'] };
+                children.push(arrow);
+            }
+        }
+
+        return { tagName: 'option', attributes, children };
     }
 
     renderBodyRow = (item) => {
@@ -45,25 +65,7 @@ export class GenericListComponent extends BaseComponent {
         return { tagName: 'div', attributes, children };
     }
 
-    renderListHeadRow = (column) => {
-        const [ASC] = SORT_DIRECTION;
-        const attributes = Object.assign({ className: 'sortable' }, column.attributes);
-        const children = [
-            { tagName: 'span', attributes: column.attributes, children: [column.label] }
-        ];
-
-        const [sortId, direction] = this.store.currentSort;
-        if (column.sorter) {
-            attributes.onclick = () => this.store.setSort(column.id);
-            if (sortId === column.id) {
-                const arrow = { tagName: 'span', attributes: { className: 'sort-arrow' }, children: [direction === ASC ? '↑': '↓'] };
-                children.push(arrow);
-            }
-        }
-
-        return { tagName: 'div', attributes, children };
-    }
-
+    
     renderForm = () => {
         const item = this.store.currentItem;
         const { formFields } = this.listConfig;
@@ -134,6 +136,7 @@ export class GenericListComponent extends BaseComponent {
         const children = [
             this.renderSearchBar(),
             this.renderAddButton(),
+            this.renderHeadRow(),
             this.rendelList()
         ];
 
