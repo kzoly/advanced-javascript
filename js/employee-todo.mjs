@@ -46,12 +46,12 @@ const tableConfig = {
                 sorter: (task1, task2) => task1.title.localeCompare(task2.title)
 
             },
-            {
-                id: 'isDone',
-                label: 'Is Done',
-                getCellValue: (task) => task.isDone ? 'Yes' : 'No',
-                attributes: {},
-            },
+            // {
+            //     id: 'isDone',
+            //     label: 'Is Done',
+            //     getCellValue: (task) => task.isDone ? 'Yes' : 'No',
+            //     attributes: {},
+            // },
             {
                 id: 'dueDate',
                 label: 'Due Date',
@@ -59,13 +59,13 @@ const tableConfig = {
                 attributes: {},
                 sorter: (task1, task2) => new Date (task1.createdAt).getTime() > new Date(task2.createdAt).getTime() ? 1 : -1
             },
-            {
-                id: 'createdAt',
-                label: 'Created at',
-                getCellValue: (task) => task.createdAt instanceof Date ? task.createdAt.toISOString().substr(0, 19).replace('T', ' ') : (task.createdAt || '-'),
-                attributes: {},
-                sorter: (task1, task2) => new Date (task1.createdAt).getTime() > new Date(task2.createdAt).getTime() ? 1 : -1
-            },
+            // {
+            //     id: 'createdAt',
+            //     label: 'Created at',
+            //     getCellValue: (task) => task.createdAt instanceof Date ? task.createdAt.toISOString().substr(0, 19).replace('T', ' ') : (task.createdAt || '-'),
+            //     attributes: {},
+            //     sorter: (task1, task2) => new Date (task1.createdAt).getTime() > new Date(task2.createdAt).getTime() ? 1 : -1
+            // },
         ]
     };
 
