@@ -50,15 +50,16 @@ export class GenericListComponent extends BaseComponent {
 
     renderBodyRow = (item) => {
         const cell = this.listConfig.columns.map(column => {
-            const ul = this.rendelListCell(column.attributes, [column.getCellValue(item)]);
-            return ul;
+            const li = this.rendelListCell(column.attributes, [column.getCellValue(item)]);
+            return li;
         });
 
        const deleteAction = { tagName: 'button', attributes: { className: 'delete-btn', onclick: () => this.store.delete(item) }, children: ['delete'] };
 
         const actions = [deleteAction];
         const actionCell = this.rendelListCell({}, actions);
-        return { tagName: 'li', children: [...cell, actionCell] };
+      
+        return { tagName: 'li', attributes:{className:'list-element'}, children: [...cell, actionCell] };
     }
 
     rendelListCell = (attributes, children) => {

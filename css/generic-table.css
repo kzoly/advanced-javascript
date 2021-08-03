@@ -275,3 +275,10 @@ margin-left: 50px;
     top: 95px;
     right: 10px;
 }
+.generic-table ul li .CheckStatus{
+    /* display: none; */
+}
+input[type="checkbox"]:checked {
+    box-shadow: 0 0 0 3px hotpink;
+    color: red;
+  }

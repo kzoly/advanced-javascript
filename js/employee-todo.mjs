@@ -39,22 +39,28 @@ const tableConfig = {
         },
         columns: [
             {
+                id: 'isDone',
+                label: 'Is Done',
+                getCellValue: (task) => task.isDone ?  
+                { tagName: 'input', attributes: { type: 'checkbox', className: 'CheckStatus', checked: true  } } 
+                : 
+                { tagName: 'input', attributes: { type: 'checkbox', className: 'CheckStatus', checked: false } },
+                attributes: {},
+            },
+            {
+                
                 id: 'title',
                 label: 'Title',
                 getCellValue: (task) => task.title,
-                attributes: {},
+                attributes: {className: 'Title'},
                 sorter: (task1, task2) => task1.title.localeCompare(task2.title)
 
             },
-            // {
-            //     id: 'isDone',
-            //     label: 'Is Done',
-            //     getCellValue: (task) => task.isDone ? 'Yes' : 'No',
-            //     attributes: {},
-            // },
+           
             {
                 id: 'dueDate',
                 label: 'Due Date',
+                
                 getCellValue: (task) => task.dueDate instanceof Date ? task.dueDate.toISOString().substr(0, 16) : (task.dueDate || ''),
                 attributes: {},
                 sorter: (task1, task2) => new Date (task1.createdAt).getTime() > new Date(task2.createdAt).getTime() ? 1 : -1
