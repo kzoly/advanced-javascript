@@ -15,7 +15,7 @@ html, body {
 
 body {
     padding-top: 32px;
-    background: linear-gradient(45deg, rgba(150,150,255,0.5), transparent);        
+    background: linear-gradient(45deg, rgba(150,150,255,0.5), transparent) fixed;        
 }
 
 .generic-table {
@@ -38,7 +38,7 @@ body {
 }
 
 .generic-table > div {
-    padding: 0 16px;
+    padding: 25px 16px;
 }
 
 .generic-table .search-container {
@@ -250,6 +250,9 @@ body {
 #root{
 	max-width: 1200px;
 	margin: 0 auto
+}
+.generic-table{
+    position: absolute;
 }
 .generic-table ul{
 	list-style: none;
